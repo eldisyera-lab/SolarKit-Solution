@@ -32,14 +32,102 @@
         .input-focus:focus{box-shadow:0 0 0 3px rgba(245,158,11,.3);border-color:#f59e0b}
         .reveal{opacity:0;transform:translateY(30px);transition:all .8s ease-out}
         .reveal.active{opacity:1;transform:translateY(0)}
+        
+        /* Menu lateral */
+        .sidebar-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:60;opacity:0;visibility:hidden;transition:all .3s ease}
+        .sidebar-overlay.active{opacity:1;visibility:visible}
+        .sidebar{position:fixed;top:0;left:0;bottom:0;width:300px;max-width:85vw;background:#0f172a;z-index:70;transform:translateX(-100%);transition:transform .4s cubic-bezier(.4,0,.2,1);overflow-y:auto}
+        .sidebar.active{transform:translateX(0)}
+        .sidebar-link{display:flex;align-items:center;gap:3;padding:1rem 1.5rem;color:#94a3b8;transition:all .2s;border-bottom:1px solid rgba(255,255,255,0.05)}
+        .sidebar-link:hover{color:#fbbf24;background:rgba(251,191,36,0.05)}
+        .sidebar-link i{width:20px;height:20px}
+        
+        /* Dropdown privacidad */
+        .privacy-dropdown{max-height:0;overflow:hidden;transition:max-height .5s ease-out,opacity .3s ease;opacity:0}
+        .privacy-dropdown.open{max-height:2000px;opacity:1}
+        .privacy-toggle{cursor:pointer;user-select:none}
+        .privacy-toggle .chevron{transition:transform .3s ease}
+        .privacy-toggle.open .chevron{transform:rotate(180deg)}
+        
+        /* Scrollbar sidebar */
+        .sidebar::-webkit-scrollbar{width:4px}
+        .sidebar::-webkit-scrollbar-track{background:transparent}
+        .sidebar::-webkit-scrollbar-thumb{background:#334155;border-radius:2px}
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased">
 
-<!-- NAV -->
+<!-- OVERLAY -->
+<div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR / MENU LATERAL IZQUIERDO -->
+<aside id="sidebar" class="sidebar">
+    <div class="p-6 border-b border-white/10">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-amber-400 to-amber-600 rounded-xl flex items-center justify-center">
+                    <i data-lucide="sun" class="w-6 h-6 text-white"></i>
+                </div>
+                <span class="font-bold text-lg text-white">Solar Kit<br><span class="text-amber-400">Solution</span></span>
+            </div>
+            <button onclick="closeSidebar()" class="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+    </div>
+    
+    <nav class="py-2">
+        <a href="#inicio" onclick="closeSidebar()" class="sidebar-link">
+            <i data-lucide="home"></i>
+            <span class="font-medium">Inicio</span>
+        </a>
+        <a href="#kits" onclick="closeSidebar()" class="sidebar-link">
+            <i data-lucide="sun"></i>
+            <span class="font-medium">Kits Solares</span>
+        </a>
+        <a href="#solicitud" onclick="closeSidebar()" class="sidebar-link">
+            <i data-lucide="file-text"></i>
+            <span class="font-medium">Solicitar Kit</span>
+        </a>
+        <a href="#privacidad" onclick="closeSidebar()" class="sidebar-link">
+            <i data-lucide="shield-check"></i>
+            <span class="font-medium">Política de Privacidad</span>
+        </a>
+    </nav>
+    
+    <div class="px-6 py-4 border-t border-white/10">
+        <p class="text-xs text-slate-500 uppercase tracking-wider mb-3 font-semibold">Contacto</p>
+        <a href="https://wa.me/5354573045" target="_blank" class="flex items-center gap-3 text-slate-400 hover:text-green-400 transition-colors mb-3">
+            <i data-lucide="message-circle" class="w-5 h-5"></i>
+            <span class="text-sm">WhatsApp</span>
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61591626611614" target="_blank" class="flex items-center gap-3 text-slate-400 hover:text-blue-400 transition-colors mb-3">
+            <i data-lucide="facebook" class="w-5 h-5"></i>
+            <span class="text-sm">Facebook</span>
+        </a>
+    </div>
+    
+    <div class="px-6 py-4 border-t border-white/10 mt-auto">
+        <div class="flex items-center gap-2 text-slate-500 text-xs">
+            <i data-lucide="phone" class="w-4 h-4"></i>
+            <span>+53 54573045</span>
+        </div>
+        <div class="flex items-center gap-2 text-slate-500 text-xs mt-1">
+            <i data-lucide="map-pin" class="w-4 h-4"></i>
+            <span>Cuba</span>
+        </div>
+    </div>
+</aside>
+
+<!-- NAVBAR -->
 <nav id="navbar" class="fixed top-0 left-0 right-0 z-40 transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-20">
+            <!-- Botón hamburguesa -->
+            <button onclick="openSidebar()" class="md:hidden w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors mr-3">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+            
             <a href="#" class="flex items-center gap-3">
                 <div class="w-10 h-10 bg-gradient-to-br from-amber-400 to-amber-600 rounded-xl flex items-center justify-center">
                     <i data-lucide="sun" class="w-6 h-6 text-white"></i>
@@ -49,13 +137,26 @@
                     <span class="font-bold text-xl gradient-text">Solution</span>
                 </div>
             </a>
+            
             <div class="hidden md:flex items-center gap-8">
-                <a href="#inicio" class="text-white/80 hover:text-amber-400 text-sm font-medium">Inicio</a>
-                <a href="#kits" class="text-white/80 hover:text-amber-400 text-sm font-medium">Kits</a>
-                <a href="#solicitud" class="text-white/80 hover:text-amber-400 text-sm font-medium">Solicitar</a>
-                <a href="https://wa.me/5354573045" target="_blank" class="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-5 py-2.5 rounded-full text-sm font-semibold">
-                    <i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp
+                <a href="#inicio" class="text-white/80 hover:text-amber-400 text-sm font-medium transition-colors">Inicio</a>
+                <a href="#kits" class="text-white/80 hover:text-amber-400 text-sm font-medium transition-colors">Kits</a>
+                <a href="#solicitud" class="text-white/80 hover:text-amber-400 text-sm font-medium transition-colors">Solicitar</a>
+                <a href="#privacidad" class="text-white/80 hover:text-amber-400 text-sm font-medium transition-colors">Privacidad</a>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <a href="https://www.facebook.com/profile.php?id=61591626611614" target="_blank" class="hidden sm:flex w-10 h-10 rounded-xl bg-white/10 hover:bg-blue-600 items-center justify-center text-white transition-all">
+                    <i data-lucide="facebook" class="w-5 h-5"></i>
                 </a>
+                <a href="https://wa.me/5354573045" target="_blank" class="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2.5 rounded-full text-sm font-semibold transition-colors">
+                    <i data-lucide="message-circle" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">WhatsApp</span>
+                </a>
+                <!-- Botón hamburguesa desktop -->
+                <button onclick="openSidebar()" class="hidden md:flex w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 items-center justify-center text-white transition-colors ml-2">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -77,10 +178,10 @@
                     Instalación profesional de paneles solares, inversores y baterías de litio. Independencia energética garantizada.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="#solicitud" class="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-xl font-semibold text-lg">
+                    <a href="#solicitud" class="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-colors">
                         <i data-lucide="file-text" class="w-5 h-5"></i> Solicitar Kit Solar
                     </a>
-                    <a href="https://wa.me/5354573045" target="_blank" class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-xl font-semibold text-lg backdrop-blur-sm border border-white/10">
+                    <a href="https://wa.me/5354573045" target="_blank" class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-xl font-semibold text-lg backdrop-blur-sm border border-white/10 transition-colors">
                         <i data-lucide="message-circle" class="w-5 h-5"></i> Consultar WhatsApp
                     </a>
                 </div>
@@ -110,7 +211,7 @@
                     <p class="text-slate-600 text-sm mb-4">Inversor 3kW + 2 baterías + 4 paneles.</p>
                     <div class="flex items-center justify-between">
                         <span class="font-bold text-2xl text-amber-600">$3,200</span>
-                        <button onclick="selectKit('Kit Residencial 3kW - $3,200')" class="text-amber-600 font-semibold text-sm">Seleccionar →</button>
+                        <button onclick="selectKit('Kit Residencial 3kW - $3,200')" class="text-amber-600 font-semibold text-sm hover:underline">Seleccionar →</button>
                     </div>
                 </div>
             </div>
@@ -124,7 +225,7 @@
                     <p class="text-slate-600 text-sm mb-4">Inversor 5kW + 4 baterías + 8 paneles.</p>
                     <div class="flex items-center justify-between">
                         <span class="font-bold text-2xl text-amber-600">$5,600</span>
-                        <button onclick="selectKit('Kit Familiar 5kW - $5,600')" class="text-amber-600 font-semibold text-sm">Seleccionar →</button>
+                        <button onclick="selectKit('Kit Familiar 5kW - $5,600')" class="text-amber-600 font-semibold text-sm hover:underline">Seleccionar →</button>
                     </div>
                 </div>
             </div>
@@ -138,7 +239,7 @@
                     <p class="text-slate-600 text-sm mb-4">Inversor 8kW + 6 baterías litio + 12 paneles.</p>
                     <div class="flex items-center justify-between">
                         <span class="font-bold text-2xl text-amber-600">$8,900</span>
-                        <button onclick="selectKit('Kit Avanzado 8kW - $8,900')" class="text-amber-600 font-semibold text-sm">Seleccionar →</button>
+                        <button onclick="selectKit('Kit Avanzado 8kW - $8,900')" class="text-amber-600 font-semibold text-sm hover:underline">Seleccionar →</button>
                     </div>
                 </div>
             </div>
@@ -152,7 +253,7 @@
                     <p class="text-slate-600 text-sm mb-4">Inversor 10kW + 8 baterías + 16 paneles.</p>
                     <div class="flex items-center justify-between">
                         <span class="font-bold text-2xl text-amber-600">$12,500</span>
-                        <button onclick="selectKit('Kit Comercial 10kW - $12,500')" class="text-amber-600 font-semibold text-sm">Seleccionar →</button>
+                        <button onclick="selectKit('Kit Comercial 10kW - $12,500')" class="text-amber-600 font-semibold text-sm hover:underline">Seleccionar →</button>
                     </div>
                 </div>
             </div>
@@ -166,7 +267,7 @@
                     <p class="text-slate-600 text-sm mb-4">Inversor 15kW + 12 baterías + 24 paneles.</p>
                     <div class="flex items-center justify-between">
                         <span class="font-bold text-2xl text-amber-600">$18,000</span>
-                        <button onclick="selectKit('Kit Industrial 15kW - $18,000')" class="text-amber-600 font-semibold text-sm">Seleccionar →</button>
+                        <button onclick="selectKit('Kit Industrial 15kW - $18,000')" class="text-amber-600 font-semibold text-sm hover:underline">Seleccionar →</button>
                     </div>
                 </div>
             </div>
@@ -177,8 +278,8 @@
                         <i data-lucide="settings" class="w-8 h-8 text-white"></i>
                     </div>
                     <h3 class="font-bold text-xl text-white mb-2">Kit Personalizado</h3>
-                    <p class="text-white/80 text-sm mb-6">Diseñamos tu kit a medida.</p>
-                    <button onclick="selectKit('Kit Personalizado - A consultar')" class="bg-white text-amber-600 px-6 py-3 rounded-xl font-semibold">Solicitar Cotización</button>
+                    <p class="text-white/80 text-sm mb-6">Diseñamos tu kit a medida según tu consumo y presupuesto.</p>
+                    <button onclick="selectKit('Kit Personalizado - A consultar')" class="bg-white text-amber-600 px-6 py-3 rounded-xl font-semibold hover:bg-slate-100 transition-colors">Solicitar Cotización</button>
                 </div>
             </div>
         </div>
@@ -190,7 +291,7 @@
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <h2 class="font-bold text-4xl sm:text-5xl text-slate-900 mb-4">Ficha de Solicitud de Servicio</h2>
-            <p class="text-slate-600 text-lg">Completa tus datos. Se enviará a WhatsApp: +53 54573045</p>
+            <p class="text-slate-600 text-lg">Completa tus datos. Se enviará a WhatsApp: <strong>+53 54573045</strong></p>
         </div>
         <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
             <div class="bg-gradient-to-r from-amber-500 to-amber-600 px-8 py-6">
@@ -200,7 +301,10 @@
                 
                 <!-- Datos Personales -->
                 <div>
-                    <h4 class="font-semibold text-lg text-slate-900 mb-4">1. Datos Personales</h4>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-4 flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center text-sm font-bold">1</span>
+                        Datos Personales
+                    </h4>
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-2">Nombre completo *</label>
@@ -215,7 +319,10 @@
 
                 <!-- Contacto -->
                 <div>
-                    <h4 class="font-semibold text-lg text-slate-900 mb-4">2. Contacto</h4>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-4 flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center text-sm font-bold">2</span>
+                        Contacto
+                    </h4>
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-2">Teléfono principal *</label>
@@ -230,7 +337,10 @@
 
                 <!-- Ubicación -->
                 <div>
-                    <h4 class="font-semibold text-lg text-slate-900 mb-4">3. Ubicación</h4>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-4 flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center text-sm font-bold">3</span>
+                        Ubicación
+                    </h4>
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-2">Provincia *</label>
@@ -261,25 +371,28 @@
 
                 <!-- Tipo Instalación -->
                 <div>
-                    <h4 class="font-semibold text-lg text-slate-900 mb-4">4. Tipo de Instalación</h4>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-4 flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center text-sm font-bold">4</span>
+                        Tipo de Instalación
+                    </h4>
                     <div class="grid sm:grid-cols-3 gap-4">
                         <label class="cursor-pointer">
                             <input type="radio" name="tipoInstalacion" value="Residencial" class="hidden peer" checked>
-                            <div class="p-4 rounded-xl border-2 border-slate-200 peer-checked:border-amber-500 peer-checked:bg-amber-50 text-center">
+                            <div class="p-4 rounded-xl border-2 border-slate-200 peer-checked:border-amber-500 peer-checked:bg-amber-50 text-center transition-all hover:border-amber-300">
                                 <i data-lucide="home" class="w-8 h-8 mx-auto mb-2 text-slate-400 peer-checked:text-amber-500"></i>
                                 <span class="font-medium peer-checked:text-amber-700">Residencial</span>
                             </div>
                         </label>
                         <label class="cursor-pointer">
                             <input type="radio" name="tipoInstalacion" value="Comercial" class="hidden peer">
-                            <div class="p-4 rounded-xl border-2 border-slate-200 peer-checked:border-amber-500 peer-checked:bg-amber-50 text-center">
+                            <div class="p-4 rounded-xl border-2 border-slate-200 peer-checked:border-amber-500 peer-checked:bg-amber-50 text-center transition-all hover:border-amber-300">
                                 <i data-lucide="store" class="w-8 h-8 mx-auto mb-2 text-slate-400 peer-checked:text-amber-500"></i>
                                 <span class="font-medium peer-checked:text-amber-700">Comercial</span>
                             </div>
                         </label>
                         <label class="cursor-pointer">
                             <input type="radio" name="tipoInstalacion" value="Industrial" class="hidden peer">
-                            <div class="p-4 rounded-xl border-2 border-slate-200 peer-checked:border-amber-500 peer-checked:bg-amber-50 text-center">
+                            <div class="p-4 rounded-xl border-2 border-slate-200 peer-checked:border-amber-500 peer-checked:bg-amber-50 text-center transition-all hover:border-amber-300">
                                 <i data-lucide="factory" class="w-8 h-8 mx-auto mb-2 text-slate-400 peer-checked:text-amber-500"></i>
                                 <span class="font-medium peer-checked:text-amber-700">Industrial</span>
                             </div>
@@ -289,7 +402,10 @@
 
                 <!-- Kit -->
                 <div>
-                    <h4 class="font-semibold text-lg text-slate-900 mb-4">5. Kit Solar Solicitado</h4>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-4 flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center text-sm font-bold">5</span>
+                        Kit Solar Solicitado
+                    </h4>
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-2">Selecciona un kit *</label>
@@ -312,23 +428,26 @@
 
                 <!-- Horario -->
                 <div>
-                    <h4 class="font-semibold text-lg text-slate-900 mb-4">6. Horario de Contacto</h4>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-4 flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center text-sm font-bold">6</span>
+                        Horario de Contacto
+                    </h4>
                     <div class="flex flex-wrap gap-4">
                         <label class="cursor-pointer">
                             <input type="radio" name="horario" value="Mañana (8AM-12PM)" class="hidden peer" checked>
-                            <div class="px-6 py-3 rounded-xl border-2 border-slate-200 peer-checked:border-amber-500 peer-checked:bg-amber-50">
+                            <div class="px-6 py-3 rounded-xl border-2 border-slate-200 peer-checked:border-amber-500 peer-checked:bg-amber-50 transition-all hover:border-amber-300">
                                 <span class="font-medium peer-checked:text-amber-700">Mañana (8AM-12PM)</span>
                             </div>
                         </label>
                         <label class="cursor-pointer">
                             <input type="radio" name="horario" value="Tarde (12PM-6PM)" class="hidden peer">
-                            <div class="px-6 py-3 rounded-xl border-2 border-slate-200 peer-checked:border-amber-500 peer-checked:bg-amber-50">
+                            <div class="px-6 py-3 rounded-xl border-2 border-slate-200 peer-checked:border-amber-500 peer-checked:bg-amber-50 transition-all hover:border-amber-300">
                                 <span class="font-medium peer-checked:text-amber-700">Tarde (12PM-6PM)</span>
                             </div>
                         </label>
                         <label class="cursor-pointer">
                             <input type="radio" name="horario" value="Indiferente" class="hidden peer">
-                            <div class="px-6 py-3 rounded-xl border-2 border-slate-200 peer-checked:border-amber-500 peer-checked:bg-amber-50">
+                            <div class="px-6 py-3 rounded-xl border-2 border-slate-200 peer-checked:border-amber-500 peer-checked:bg-amber-50 transition-all hover:border-amber-300">
                                 <span class="font-medium peer-checked:text-amber-700">Indiferente</span>
                             </div>
                         </label>
@@ -342,16 +461,16 @@
                         <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center peer-checked:bg-amber-500 peer-checked:border-amber-500 transition-colors flex-shrink-0 mt-0.5">
                             <svg class="w-3 h-3 text-white hidden peer-checked:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
                         </div>
-                        <span class="text-sm text-slate-600">Acepto la <a href="#privacidad" class="text-amber-600 hover:underline font-medium">Política de Privacidad</a> y el tratamiento de mis datos. *</span>
+                        <span class="text-sm text-slate-600">Acepto la <a href="#privacidad" onclick="scrollToPrivacy()" class="text-amber-600 hover:underline font-medium">Política de Privacidad</a> y el tratamiento de mis datos. *</span>
                     </label>
                 </div>
 
                 <!-- Botones -->
                 <div class="flex flex-col sm:flex-row gap-4 pt-4">
-                    <button type="submit" class="flex-1 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-8 py-4 rounded-xl font-semibold text-lg flex items-center justify-center gap-2">
+                    <button type="submit" class="flex-1 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-8 py-4 rounded-xl font-semibold text-lg flex items-center justify-center gap-2 transition-all">
                         <i data-lucide="send" class="w-5 h-5"></i> Enviar por WhatsApp
                     </button>
-                    <button type="button" onclick="document.getElementById('solicitudForm').reset()" class="px-8 py-4 rounded-xl border-2 border-slate-200 text-slate-600 font-semibold hover:bg-slate-50">
+                    <button type="button" onclick="document.getElementById('solicitudForm').reset()" class="px-8 py-4 rounded-xl border-2 border-slate-200 text-slate-600 font-semibold hover:bg-slate-50 transition-colors">
                         Limpiar
                     </button>
                 </div>
@@ -360,52 +479,160 @@
     </div>
 </section>
 
-<!-- PRIVACIDAD -->
+<!-- PRIVACIDAD - MENÚ DESPLEGABLE -->
 <section id="privacidad" class="py-24 bg-white">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <h2 class="font-bold text-4xl sm:text-5xl text-slate-900 mb-4">Política de Privacidad</h2>
+            <p class="text-slate-600">Tu información está segura con nosotros. Despliega cada sección para leer los detalles.</p>
         </div>
-        <div class="space-y-8">
-            <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100">
-                <h3 class="font-bold text-xl text-slate-900 mb-3">1. Información Recopilada</h3>
-                <p class="text-slate-600">Recopilamos: nombre, CI, teléfono, dirección, provincia, municipio y consumo energético. Solo para contactarte y cotizar.</p>
+        
+        <div class="space-y-4">
+            <!-- Sección 1 -->
+            <div class="bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden">
+                <div class="privacy-toggle flex items-center justify-between p-6" onclick="togglePrivacy(this)">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center">
+                            <i data-lucide="database" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-900">1. Información Recopilada</h3>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron w-5 h-5 text-slate-400"></i>
+                </div>
+                <div class="privacy-dropdown px-6 pb-6">
+                    <div class="pl-14">
+                        <p class="text-slate-600 leading-relaxed">Recopilamos los siguientes datos personales a través del formulario de solicitud:</p>
+                        <ul class="mt-3 space-y-2 text-slate-600">
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-1 flex-shrink-0"></i> Nombre completo</li>
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-1 flex-shrink-0"></i> Carnet de Identidad (CI)</li>
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-1 flex-shrink-0"></i> Número(s) de teléfono</li>
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-1 flex-shrink-0"></i> Dirección completa (provincia, municipio, calle)</li>
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-1 flex-shrink-0"></i> Información sobre consumo energético y electrodomésticos</li>
+                        </ul>
+                        <p class="mt-4 text-slate-500 text-sm italic">Estos datos son recopilados únicamente con el fin de contactarte y preparar una cotización técnica personalizada.</p>
+                    </div>
+                </div>
             </div>
-            <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100">
-                <h3 class="font-bold text-xl text-slate-900 mb-3">2. Uso de Datos</h3>
-                <ul class="space-y-2 text-slate-600">
-                    <li>• Contacto vía WhatsApp para asesoría</li>
-                    <li>• Preparar cotizaciones técnicas</li>
-                    <li>• Coordinar visitas e instalaciones</li>
-                </ul>
+            
+            <!-- Sección 2 -->
+            <div class="bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden">
+                <div class="privacy-toggle flex items-center justify-between p-6" onclick="togglePrivacy(this)">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center">
+                            <i data-lucide="target" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-900">2. Uso de los Datos</h3>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron w-5 h-5 text-slate-400"></i>
+                </div>
+                <div class="privacy-dropdown px-6 pb-6">
+                    <div class="pl-14">
+                        <p class="text-slate-600 leading-relaxed">Los datos proporcionados serán utilizados exclusivamente para:</p>
+                        <ul class="mt-3 space-y-2 text-slate-600">
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-1 flex-shrink-0"></i> Contacto vía WhatsApp para asesoría personalizada</li>
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-1 flex-shrink-0"></i> Preparar cotizaciones técnicas adaptadas a tu consumo</li>
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-1 flex-shrink-0"></i> Coordinar visitas técnicas previas a la instalación</li>
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-1 flex-shrink-0"></i> Gestionar la logística de entrega e instalación del equipo</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100">
-                <h3 class="font-bold text-xl text-slate-900 mb-3">3. Protección</h3>
-                <p class="text-slate-600">No vendemos ni compartimos tus datos. Medidas de seguridad implementadas.</p>
+            
+            <!-- Sección 3 -->
+            <div class="bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden">
+                <div class="privacy-toggle flex items-center justify-between p-6" onclick="togglePrivacy(this)">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center">
+                            <i data-lucide="lock" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-900">3. Protección de Datos</h3>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron w-5 h-5 text-slate-400"></i>
+                </div>
+                <div class="privacy-dropdown px-6 pb-6">
+                    <div class="pl-14">
+                        <p class="text-slate-600 leading-relaxed">En <strong>Solar Kit Solution</strong> nos comprometemos a:</p>
+                        <ul class="mt-3 space-y-2 text-slate-600">
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-1 flex-shrink-0"></i> <strong>No vender ni compartir</strong> tus datos personales con terceros</li>
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-1 flex-shrink-0"></i> Implementar medidas de seguridad para proteger tu información</li>
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-1 flex-shrink-0"></i> Conservar los datos solo el tiempo necesario para la prestación del servicio</li>
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-1 flex-shrink-0"></i> Eliminación segura de datos cuando ya no sean necesarios</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100">
-                <h3 class="font-bold text-xl text-slate-900 mb-3">4. Cookies</h3>
-                <p class="text-slate-600">Cookies esenciales solo. Sin rastreo publicitario.</p>
+            
+            <!-- Sección 4 -->
+            <div class="bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden">
+                <div class="privacy-toggle flex items-center justify-between p-6" onclick="togglePrivacy(this)">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center">
+                            <i data-lucide="cookie" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-900">4. Cookies</h3>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron w-5 h-5 text-slate-400"></i>
+                </div>
+                <div class="privacy-dropdown px-6 pb-6">
+                    <div class="pl-14">
+                        <p class="text-slate-600 leading-relaxed">Esta página web utiliza únicamente <strong>cookies esenciales</strong> necesarias para el correcto funcionamiento del sitio. No utilizamos cookies de rastreo publicitario ni de análisis de terceros.</p>
+                    </div>
+                </div>
             </div>
-            <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100">
-                <h3 class="font-bold text-xl text-slate-900 mb-3">5. Tus Derechos</h3>
-                <p class="text-slate-600">Puedes solicitar acceso, rectificación o eliminación. WhatsApp: <strong>+53 54573045</strong></p>
+            
+            <!-- Sección 5 -->
+            <div class="bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden">
+                <div class="privacy-toggle flex items-center justify-between p-6" onclick="togglePrivacy(this)">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center">
+                            <i data-lucide="user-check" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-900">5. Tus Derechos</h3>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron w-5 h-5 text-slate-400"></i>
+                </div>
+                <div class="privacy-dropdown px-6 pb-6">
+                    <div class="pl-14">
+                        <p class="text-slate-600 leading-relaxed">Como usuario tienes derecho a:</p>
+                        <ul class="mt-3 space-y-2 text-slate-600">
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-1 flex-shrink-0"></i> <strong>Acceso:</strong> Solicitar qué datos tenemos sobre ti</li>
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-1 flex-shrink-0"></i> <strong>Rectificación:</strong> Corregir datos incorrectos o desactualizados</li>
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-1 flex-shrink-0"></i> <strong>Eliminación:</strong> Solicitar la eliminación completa de tus datos</li>
+                        </ul>
+                        <p class="mt-4 text-slate-600">Para ejercer cualquiera de estos derechos, contáctanos por WhatsApp: <a href="https://wa.me/5354573045" target="_blank" class="text-amber-600 font-semibold hover:underline">+53 54573045</a></p>
+                    </div>
+                </div>
             </div>
-            <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100">
-                <h3 class="font-bold text-xl text-slate-900 mb-3">6. Términos</h3>
-                <ul class="space-y-2 text-slate-600">
-                    <li>• Información veraz requerida</li>
-                    <li>• Precios sujetos a disponibilidad</li>
-                    <li>• Evaluación técnica previa obligatoria</li>
-                    <li>• Garantía 2 años en equipos</li>
-                </ul>
+            
+            <!-- Sección 6 -->
+            <div class="bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden">
+                <div class="privacy-toggle flex items-center justify-between p-6" onclick="togglePrivacy(this)">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center">
+                            <i data-lucide="file-check" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-900">6. Términos y Condiciones</h3>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron w-5 h-5 text-slate-400"></i>
+                </div>
+                <div class="privacy-dropdown px-6 pb-6">
+                    <div class="pl-14">
+                        <ul class="space-y-2 text-slate-600">
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-1 flex-shrink-0"></i> La información proporcionada debe ser <strong>veraz y completa</strong></li>
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-1 flex-shrink-0"></i> Los precios publicados están <strong>sujetos a disponibilidad</strong> de inventario</li>
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-1 flex-shrink-0"></i> Toda instalación requiere una <strong>evaluación técnica previa</strong> in situ</li>
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-1 flex-shrink-0"></i> <strong>Garantía de 2 años</strong> en todos los equipos instalados</li>
+                            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-1 flex-shrink-0"></i> El pago se realiza según los términos acordados tras la evaluación técnica</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- WHATSAPP FLOAT -->
-<a href="https://wa.me/5354573045" target="_blank" class="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl animate-bounce">
+<a href="https://wa.me/5354573045" target="_blank" class="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl animate-bounce transition-colors">
     <i data-lucide="message-circle" class="w-7 h-7"></i>
 </a>
 
@@ -421,24 +648,30 @@
                     <span class="font-bold text-xl text-white">Solar Kit Solution</span>
                 </div>
                 <p class="text-slate-400 mb-6">Energía limpia para tu hogar y negocio. Instalación profesional en toda Cuba.</p>
-                <div class="flex gap-4">
-                    <a href="https://wa.me/5354573045" class="w-10 h-10 bg-white/10 hover:bg-green-500 rounded-lg flex items-center justify-center transition-colors"><i data-lucide="message-circle" class="w-5 h-5 text-white"></i></a>
+                <div class="flex gap-3">
+                    <a href="https://wa.me/5354573045" target="_blank" class="w-10 h-10 bg-white/10 hover:bg-green-500 rounded-lg flex items-center justify-center transition-colors" title="WhatsApp">
+                        <i data-lucide="message-circle" class="w-5 h-5 text-white"></i>
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=61591626611614" target="_blank" class="w-10 h-10 bg-white/10 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors" title="Facebook">
+                        <i data-lucide="facebook" class="w-5 h-5 text-white"></i>
+                    </a>
                 </div>
             </div>
             <div>
                 <h4 class="font-bold text-white mb-4">Enlaces</h4>
                 <ul class="space-y-2">
-                    <li><a href="#inicio" class="text-slate-400 hover:text-amber-400 text-sm">Inicio</a></li>
-                    <li><a href="#kits" class="text-slate-400 hover:text-amber-400 text-sm">Kits</a></li>
-                    <li><a href="#solicitud" class="text-slate-400 hover:text-amber-400 text-sm">Solicitar</a></li>
+                    <li><a href="#inicio" class="text-slate-400 hover:text-amber-400 text-sm transition-colors">Inicio</a></li>
+                    <li><a href="#kits" class="text-slate-400 hover:text-amber-400 text-sm transition-colors">Kits</a></li>
+                    <li><a href="#solicitud" class="text-slate-400 hover:text-amber-400 text-sm transition-colors">Solicitar</a></li>
+                    <li><a href="#privacidad" class="text-slate-400 hover:text-amber-400 text-sm transition-colors">Privacidad</a></li>
                 </ul>
             </div>
             <div>
                 <h4 class="font-bold text-white mb-4">Contacto</h4>
                 <ul class="space-y-2 text-slate-400 text-sm">
-                    <li>📱 +53 54573045</li>
-                    <li>📍 Cuba</li>
-                    <li>🕐 24/7</li>
+                    <li class="flex items-center gap-2"><i data-lucide="phone" class="w-4 h-4"></i> +53 54573045</li>
+                    <li class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4"></i> Cuba</li>
+                    <li class="flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4"></i> 24/7</li>
                 </ul>
             </div>
         </div>
@@ -451,20 +684,68 @@
 <script>
     lucide.createIcons();
     
-    // Navbar scroll
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-        if(window.scrollY > 50) navbar.classList.add('bg-slate-900/95','backdrop-blur-lg','shadow-lg');
-        else navbar.classList.remove('bg-slate-900/95','backdrop-blur-lg','shadow-lg');
+    // ===== SIDEBAR / MENÚ LATERAL =====
+    function openSidebar() {
+        document.getElementById('sidebar').classList.add('active');
+        document.getElementById('sidebarOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('active');
+        document.getElementById('sidebarOverlay').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    
+    // Cerrar sidebar con tecla Escape
+    document.addEventListener('keydown', function(e) {
+        if(e.key === 'Escape') closeSidebar();
     });
     
-    // Select kit
+    // ===== NAVBAR SCROLL =====
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        if(window.scrollY > 50) {
+            navbar.classList.add('bg-slate-900/95','backdrop-blur-lg','shadow-lg');
+        } else {
+            navbar.classList.remove('bg-slate-900/95','backdrop-blur-lg','shadow-lg');
+        }
+    });
+    
+    // ===== SELECT KIT =====
     function selectKit(kitName) {
         document.getElementById('kitSeleccionado').value = kitName;
         document.getElementById('solicitud').scrollIntoView({behavior:'smooth'});
     }
     
-    // Form submit
+    // ===== PRIVACY DROPDOWN =====
+    function togglePrivacy(element) {
+        const dropdown = element.nextElementSibling;
+        const isOpen = dropdown.classList.contains('open');
+        
+        // Cerrar todos los demás
+        document.querySelectorAll('.privacy-dropdown').forEach(d => d.classList.remove('open'));
+        document.querySelectorAll('.privacy-toggle').forEach(t => t.classList.remove('open'));
+        
+        // Abrir el clickeado si estaba cerrado
+        if(!isOpen) {
+            dropdown.classList.add('open');
+            element.classList.add('open');
+        }
+    }
+    
+    function scrollToPrivacy() {
+        document.getElementById('privacidad').scrollIntoView({behavior:'smooth'});
+        // Abrir la primera sección de privacidad
+        setTimeout(() => {
+            const firstToggle = document.querySelector('.privacy-toggle');
+            if(firstToggle && !firstToggle.nextElementSibling.classList.contains('open')) {
+                togglePrivacy(firstToggle);
+            }
+        }, 600);
+    }
+    
+    // ===== FORM SUBMIT =====
     document.getElementById('solicitudForm').addEventListener('submit', function(e) {
         e.preventDefault();
         if(!document.getElementById('privacidad').checked) {
@@ -481,10 +762,10 @@
             municipio: document.getElementById('municipio').value.trim(),
             direccion: document.getElementById('direccion').value.trim(),
             referencia: document.getElementById('referencia').value.trim() || 'No proporcionado',
-            tipoInstalacion: document.querySelector('input[name=\"tipoInstalacion\"]:checked').value,
+            tipoInstalacion: document.querySelector('input[name="tipoInstalacion"]:checked').value,
             kit: document.getElementById('kitSeleccionado').value,
             consumo: document.getElementById('consumo').value.trim() || 'No especificado',
-            horario: document.querySelector('input[name=\"horario\"]:checked').value,
+            horario: document.querySelector('input[name="horario"]:checked').value,
             fecha: new Date().toLocaleString('es-CU')
         };
         
