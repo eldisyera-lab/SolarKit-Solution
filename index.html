@@ -158,6 +158,7 @@
     <link rel="icon" type="image/png" href="images/logo.png">
     <link rel="apple-touch-icon" href="images/logo.png">
 <base target="_blank">
+<base target="_blank">
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased">
 
@@ -1017,51 +1018,33 @@
         };
 
         const mensaje = encodeURIComponent(
-            '🌞 *SOLAR KIT SOLUTION - NUEVA SOLICITUD* 🌞
+            `🌞 *SOLAR KIT SOLUTION - NUEVA SOLICITUD* 🌞
 
-' +
-            '📅 Fecha: ' + data.fecha + '
+📅 Fecha: ${data.fecha}
 
-' +
-            '👤 *DATOS PERSONALES*
-' +
-            '• Nombre: ' + data.nombre + '
-' +
-            '• CI: ' + data.ci + '
+👤 *DATOS PERSONALES*
+• Nombre: ${data.nombre}
+• CI: ${data.ci}
 
-' +
-            '📞 *CONTACTO*
-' +
-            '• Telefono: ' + data.telefono + '
-' +
-            '• Tel. Alternativo: ' + data.telefonoAlt + '
+📞 *CONTACTO*
+• Telefono: ${data.telefono}
+• Tel. Alternativo: ${data.telefonoAlt}
 
-' +
-            '📍 *UBICACION*
-' +
-            '• Provincia: ' + data.provincia + '
-' +
-            '• Municipio: ' + data.municipio + '
-' +
-            '• Direccion: ' + data.direccion + '
-' +
-            '• Referencia: ' + data.referencia + '
+📍 *UBICACION*
+• Provincia: ${data.provincia}
+• Municipio: ${data.municipio}
+• Direccion: ${data.direccion}
+• Referencia: ${data.referencia}
 
-' +
-            '⚡ *INSTALACION*
-' +
-            '• Tipo: ' + data.tipoInstalacion + '
-' +
-            '• Kit: ' + data.kit + '
-' +
-            '• Consumo: ' + data.consumo + '
+⚡ *INSTALACION*
+• Tipo: ${data.tipoInstalacion}
+• Kit: ${data.kit}
+• Consumo: ${data.consumo}
 
-' +
-            '⏰ Horario preferido: ' + data.horario + '
+⏰ Horario preferido: ${data.horario}
 
-' +
-            '---
-✅ Enviado desde solarkitsolution.com'
+---
+✅ Enviado desde solarkitsolution.com`
         );
 
         setTimeout(() => {
